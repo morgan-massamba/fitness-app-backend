@@ -2,9 +2,43 @@ const db = require('../config/database');
 
 exports.createTraining = (req, res) => {
     try {
-        console.log(req.body);
-        res.status(200).json({
-            message: 'Nouveau programme créé avec succès!',
+        const { title, level, exercises } = req.body;
+
+        const sql =
+            'INSERT INTO trainings (title, level, user_id) VALUES (?, ?, ?)';
+        db.query(sql, [title, level, req.userId], (error, results) => {
+            if (error) {
+                return res.status(400).json({ error });
+            }
+
+            // RETRIEVE THE INSERT ID
+            const trainingId = results.insertId;
+
+            // INSERT ALL THE EXERCISES IN THE CORRESPONDING TRAINING ID
+            const secondSql =
+                'INSERT INTO training_exercises (training_id, exercise_id, sets, reps) VALUES ?';
+
+            // VALUES SOUS LA FORME [ [ valeur1, valeur2, valeur3], [ valeur4, valeur5, valeur6], [ valeur7, valeur8, valeur9],]
+            db.query(
+                secondSql,
+                [
+                    exercises.map((item) => [
+                        trainingId,
+                        item.exerciseId,
+                        item.sets,
+                        item.reps,
+                    ]),
+                ],
+                (error, results) => {
+                    if (error) {
+                        return res.status(400).json({ error });
+                    }
+
+                    res.status(200).json({
+                        message: 'Entrainement créé avec succès',
+                    });
+                }
+            );
         });
     } catch (error) {
         console.log(error);
