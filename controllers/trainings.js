@@ -34,7 +34,7 @@ exports.getOneTraining = (req, res) => {
         const userId = req.userId;
         const trainingId = Number(req.params.trainingId);
         const sql =
-            'SELECT fitness.trainings.id, fitness.trainings.title, fitness.exercises.title as exercise, fitness.training_exercises.sets, fitness.training_exercises.reps from fitness.trainings INNER JOIN fitness.training_exercises ON fitness.trainings.id = fitness.training_exercises.training_id INNER JOIN fitness.exercises ON fitness.training_exercises.exercise_id = fitness.exercises.id WHERE fitness.trainings.user_id = ? AND fitness.trainings.id = ?;';
+            'SELECT fitness.trainings.id, fitness.trainings.title, fitness.trainings.level,  fitness.exercises.title as exercise, fitness.training_exercises.sets, fitness.training_exercises.reps from fitness.trainings INNER JOIN fitness.training_exercises ON fitness.trainings.id = fitness.training_exercises.training_id INNER JOIN fitness.exercises ON fitness.training_exercises.exercise_id = fitness.exercises.id WHERE fitness.trainings.user_id = ? AND fitness.trainings.id = ?;';
         db.query(sql, [userId, trainingId], (error, results) => {
             if (error) {
                 return res.status(400).json({ error });
@@ -42,8 +42,9 @@ exports.getOneTraining = (req, res) => {
             if (results.length > 0) {
                 const newArr = [];
                 const newObj = {};
-                newObj.title = results[0].title;
                 newObj.id = results[0].id;
+                newObj.title = results[0].title;
+                newObj.level = results[0].level;
                 newObj.exercises = results.map((i) => {
                     return {
                         title: i.exercise,
