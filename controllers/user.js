@@ -16,6 +16,29 @@ exports.getUser = (req, res) => {
     }
 };
 
+exports.updateUser = (req, res) => {
+    try {
+        const userId = req.userId;
+        const { firstname, lastname, age, weight, height } = req.body;
+        const sql =
+            'UPDATE users SET firstname = ?, lastname = ?, age = ?, weight = ?, height = ? WHERE id = ?';
+        db.query(
+            sql,
+            [firstname, lastname, age, weight, height, userId],
+            (error, results) => {
+                if (error) {
+                    return res.status(400).json({ error });
+                }
+                res.status(200).json({
+                    message: 'Utilisateur modifié avec succès',
+                });
+            }
+        );
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+};
+
 exports.deleteUser = (req, res) => {
     try {
         const userId = req.userId;
