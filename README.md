@@ -1,18 +1,20 @@
-# Installation du projet
+# Backend de l'application myFitness
 
 ## Création fichier .env
 
 Créer un fichier .env à la racine du projet pour l'initialisation de la database mysql avec les valeurs :
-DB_HOST
-DB_USER
-DB_PASSWORD
-DB_DATABASE
-SECRET_SIGN_TOKEN
+DB_HOST \
+DB_USER \
+DB_PASSWORD \
+DB_DATABASE \
+SECRET_SIGN_TOKEN \
 
-### npm run i
+## Installation du projet
+
+### `npm run install`
 
 Installation des dépendances
 
-### npm start
+### `npm start`
 
 Lance le serveur
