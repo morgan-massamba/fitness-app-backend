@@ -1,13 +1,13 @@
 # Backend de l'application myFitness
 
-## Création fichier .env
+## Création du fichier .env
 
-Créer un fichier .env à la racine du projet pour l'initialisation de la database mysql avec les valeurs :
+Créer un fichier .env à la racine du projet pour l'initialisation de la database mysql avec les valeurs : \
 DB_HOST \
 DB_USER \
 DB_PASSWORD \
 DB_DATABASE \
-SECRET_SIGN_TOKEN \
+SECRET_SIGN_TOKEN
 
 ## Installation du projet
 
