@@ -3,6 +3,7 @@ const db = require('../config/database');
 exports.createTraining = (req, res) => {
     try {
         const { title, level, exercises } = req.body;
+        // Exemple : exercises = [ { exerciseId : 1, sets : 4 , reps : 10 }, { exerciseId : 2, sets : 3 , reps : 15 } ]
 
         const sql =
             'INSERT INTO trainings (title, level, user_id) VALUES (?, ?, ?)';
@@ -11,14 +12,15 @@ exports.createTraining = (req, res) => {
                 return res.status(400).json({ error });
             }
 
-            // RETRIEVE THE INSERT ID
+            // INSERT ALL THE EXERCICES IN THE CORRESPONDING TRAINING
+            // RETRIEVE THE INSERT ID OF THE CURRENT TRAINING
             const trainingId = results.insertId;
 
             // INSERT ALL THE EXERCISES IN THE CORRESPONDING TRAINING ID
             const secondSql =
                 'INSERT INTO training_exercises (training_id, exercise_id, sets, reps) VALUES ?';
 
-            // VALUES SOUS LA FORME [ [ valeur1, valeur2, valeur3], [ valeur4, valeur5, valeur6], [ valeur7, valeur8, valeur9],]
+            // VALUES SOUS LA FORME [ [valeur1, valeur2, valeur3, valeur4], [valeur1, valeur2, valeur3, valeur4], [valeur1, valeur2, valeur3, valeur4] ]
             db.query(
                 secondSql,
                 [
